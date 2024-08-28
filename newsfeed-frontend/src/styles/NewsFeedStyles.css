@@ -1,0 +1,172 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.header .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.header .search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.header .search-bar input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.header .search-bar button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header .header-actions button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.news-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  text-align: center; 
+}
+
+.news-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px;
+  color: #333;
+}
+
+
+.loading-message,
+.error-message,
+.no-articles-message {
+  font-size: 1.2em;
+  color: #333;
+  padding: 75px;
+  margin-top: 75px;
+}
+
+
+.error-message {
+  color: red;
+}
+
+
+.no-articles-message {
+  color: #555;
+}
+
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  margin-top: 50px;
+  transition: box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.article-card__image {
+  width: 100%;
+  height: auto;
+}
+
+.article-card__content {
+  padding: 15px;
+}
+
+.article-card__title {
+  font-size: 1.5em;
+  margin: 0 0 10px;
+}
+
+.article-card__description {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.article-card__meta {
+  font-size: 0.875em;
+  color: #777;
+}
+
+.article-card__link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+  .header .search-bar {
+    flex-direction: column;
+  }
+
+  .header .search-bar button {
+    margin-top: 8px;
+  }
+
+  .news-feed {
+    padding: 10px;
+    margin-top: 50px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .article-card__title {
+    font-size: 1.2em;
+  }
+
+  .article-card__description {
+    font-size: 0.9em;
+  }
+}

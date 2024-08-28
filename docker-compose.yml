@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+    server:
+        build:
+            context: ./NewsAPI
+            dockerfile: Dockerfile
+        ports:
+            - "8000-8001:8000"
+        volumes:
+            - ./NewsAPI:/var/www/html
+        env_file: ./NewsAPI/.env
+        environment:
+            - APP_ENV=local
+            - APP_DEBUG=true
+            - APP_KEY=${APP_KEY}
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=NewsAPI
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+        depends_on:
+            - db
+
+    db:
+        image: mysql:8.0
+        container_name: mysql_db
+        ports:
+            - "3306:3306"
+        env_file: ./NewsAPI/.env
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: NewsAPI
+            MYSQL_USER: user
+            MYSQL_PASSWORD:
+            MYSQL_INITDB_SKIP_TZINFO: 'yes'
+        volumes:
+            - dbdata:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - "8080:80"
+        env_file: ./NewsAPI/.env
+        environment:
+            PMA_HOST: db
+            MYSQL_ROOT_PASSWORD: root
+
+    client:
+        build:
+            context: ./newsfeed-frontend
+            dockerfile: Dockerfile
+        ports:
+            - "3000-3001:3000"
+        volumes:
+            - ./newsfeed-frontend:/usr/src/app
+        stdin_open: true
+        tty: true
+        depends_on: 
+            - server
+
+volumes:
+    dbdata:
+        driver: local

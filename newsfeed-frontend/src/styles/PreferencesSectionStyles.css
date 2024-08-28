@@ -1,0 +1,25 @@
+.preference-section {
+    margin-bottom: 20px;
+  }
+  
+  .preference-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .preference-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .preference-option input {
+    margin-right: 10px;
+  }
+  
+
+  @media (max-width: 768px) {
+    .preference-option {
+      font-size: 0.9em;
+    }
+  }
+  
