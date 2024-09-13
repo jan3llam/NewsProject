@@ -5,6 +5,7 @@ namespace App\Services\Api;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use App\Services\Api\ArticleService;
+use Illuminate\Support\Facades\Cache;
 
 
 class NewsFeedService
@@ -19,12 +20,24 @@ class NewsFeedService
 
     public function searchByKeyword(array $filter): array
     {
+        $keyword = $filter['keyword'];
+
         Log::channel('user')->info('Searching articles for keyword', [
-            'keyword' => $filter['keyword']
+            'keyword' => $keyword
         ]);
 
+        $cacheKey = 'search_articles_' . md5($keyword);
 
-        return $this->articleService->searchArticles($filter);
+        $articles = Cache::get($cacheKey);
+
+        if (!$articles) {
+
+            $articles = $this->articleService->searchArticles($filter);
+
+            Cache::put($cacheKey, $articles, now()->addMinutes(10));
+        }
+
+        return $articles;
     }
 
     public function getFilteredNews(array $filters): array
@@ -62,7 +75,13 @@ class NewsFeedService
             return [];
         }
 
+        $cacheKey = 'personalized_news_user_' . $user->id . '_' . md5(json_encode($preferences->only('preferred_categories', 'preferred_sources', 'preferred_authors')));
 
-        return $this->articleService->fetchArticles($preferences->only('preferred_categories', 'preferred_sources', 'preferred_authors'));
+        $articles = Cache::remember($cacheKey, 10, function () use ($preferences) {
+            return $this->articleService->fetchArticles($preferences->only('preferred_categories', 'preferred_sources', 'preferred_authors'));
+        });
+
+
+        return $articles;
     }
 }

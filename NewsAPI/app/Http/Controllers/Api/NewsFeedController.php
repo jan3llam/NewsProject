@@ -103,9 +103,10 @@ class NewsFeedController extends Controller
             Log::channel('api')->info('Search Request Validation Success');
 
             $validatedData = $request->validated();
+            $keyword = $validatedData['keyword'];
 
             Log::channel('api')->info('Searching news feed by: ', [
-                'keyword' => $request['keyword']
+                'keyword' => $keyword
             ]);
 
             $articles = $this->newsFeedService->searchByKeyword($validatedData);
